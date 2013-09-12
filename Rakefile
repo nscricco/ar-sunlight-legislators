@@ -30,7 +30,7 @@ end
 
 desc "Populate the database with data"
 task "db:populate" do
-	SunlightLegislatorsImporter.import("./db/data/legislators.csv")
+	SunlightLegislatorsImporter.import
 end
 
 desc "Run the specs"

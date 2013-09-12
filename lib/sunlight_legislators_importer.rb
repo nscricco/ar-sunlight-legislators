@@ -1,32 +1,16 @@
-require_relative '../app/models/politician'
-require_relative '../app/models/seat'
+require 'CSV'
+require_relative '../app/models/legislator'
 
 class SunlightLegislatorsImporter
-  def self.import(filename)
-    field_names = nil
-    File.open(filename).each do |line|
-
-      data = line.chomp.split(',')
-
-      if field_names.nil?
-        field_names = data
-
+  def self.import(filename = File.dirname(__FILE__) + "/../db/data/legislators.csv")
+    header = nil
+    CSV.foreach(filename) do |line_data|
+      if header.nil?
+        header = line_data
       else
-        seat_attribute_hash = {}
-        politician_attribute_hash = {}
-        all_attribute_hash = Hash[field_names.zip(data)]
-
-        all_attribute_hash.each do |key, value|
-          if [:title, :state, :district].include?(key)
-            seat_attribute_hash[key] = value
-          elsif [:firstname, :middlename, :lastname, :name_suffix, :nickname, :party, :in_office, :gender, :phone, :fax, :website, :webform, :twitter_id, :birthdate].include?(key)
-            politician_attribute_hash[key] = value
-          end
-        end
-        # raise NotImplementedError, "TODO: figure out what to do with this row and do it!"
+        attributes = Hash[header.zip(line_data)]
+        Legislator.create!(attributes)
       end
-      politician = Politician.create!(politician_attribute_hash)
-      seat = Seat.create!(seat_attribute_hash)
     end
   end
 end
