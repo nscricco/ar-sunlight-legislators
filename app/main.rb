@@ -45,6 +45,10 @@ module Tasks
 		arg_hash.flatten.map {|i| i.to_s}
 		arg_hash.sort
 	end
+
+	def self.remove_inactive_legislators
+		Legislator.destroy_all(:in_office => false)
+	end
 end
 
 # Tasks.print_by_state('MA')
@@ -53,6 +57,10 @@ end
 # puts
 # Tasks.print_gender_stats('F')
 
-# Tasks.print_number_of_legislators
+Tasks.print_number_of_legislators
 
-Tasks.print_number_of_legislators_by_state
+# Tasks.print_number_of_legislators_by_state
+
+Tasks.remove_inactive_legislators
+
+Tasks.print_number_of_legislators
