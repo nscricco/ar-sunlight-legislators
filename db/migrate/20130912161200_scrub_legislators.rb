@@ -2,7 +2,7 @@ require_relative '../config'
 
 class ScrubLegislators < ActiveRecord::Migration
 	def change
-		remove_column :legislators, :gender, :string
+		# remove_column :legislators, :gender, :string
 		remove_column :legislators, :congress_office, :string
 		remove_column :legislators, :bioguide_id, :string
 		remove_column :legislators, :votesmart_id, :string
